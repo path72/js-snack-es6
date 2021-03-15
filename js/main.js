@@ -64,8 +64,8 @@ La bici più leggera è la ${minBici} che pesa ${minPeso}.
 // i cui elementi contengono solo 
 // nomi e falli subiti e stampiamo tutto in console.
 
-var iscrizioneAlCampionato = function(_N) {
-	var arr = [];
+const iscrizioneAlCampionato = function(_N) {
+	let arr = [];
 	for (let i=1; i<=_N; i++)
 		arr.push({
 			'nome'        : 'squadra'+i,
@@ -75,7 +75,7 @@ var iscrizioneAlCampionato = function(_N) {
 	return arr;
 };
 
-var squadre = iscrizioneAlCampionato(getRandomInt(3,9));
+const squadre = iscrizioneAlCampionato(getRandomInt(3,9));
 
 console.log(`
 ==============================================
@@ -99,9 +99,9 @@ NOME      FS
 `);
 
 // duplicazione array di oggetti senza puntiFatti
-var squadre2 = [];
+const squadre2 = [];
 squadre.forEach((el) => {
-	var { nome, falliSubiti } = el;	
+	let { nome, falliSubiti } = el;	
 	squadre2.push({nome,falliSubiti});
 });
 mostraArrayDiOggettiInConsole(squadre2,'nome','falliSubiti');
@@ -120,9 +120,9 @@ console.log(`
 
 
 function mostraArrayDiOggettiInConsole(_objArr, ..._campi) {
-	var	arr = [..._campi];
+	let	arr = [..._campi];
 	_objArr.forEach((el) => {
-		var msg = '';
+		let msg = '';
 		for (let i=0; i<arr.length; i++) msg += `${el[arr[i]]}  `;
 		console.log(msg);
 	});
