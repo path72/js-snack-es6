@@ -12,33 +12,42 @@ $(function() {
 // Stampare a schermo la bici con peso minore 
 // utilizzando destructuring e template literal
 
-var bici = [
-	{'nome':'bici1', 'peso':getRandomInt(1,10)},
-	{'nome':'bici2', 'peso':getRandomInt(1,10)},
-	{'nome':'bici3', 'peso':getRandomInt(1,10)},
-	{'nome':'bici4', 'peso':getRandomInt(1,10)},
-	{'nome':'bici5', 'peso':getRandomInt(1,10)}
-];
+const fabbricaDiBici = function(_N) {
+	let arr = []; 
+	for (let i=1; i<=_N; i++)
+		arr.push({
+			'nome': 'bici'+i, 
+			'peso': getRandomInt(1,10)
+		});
+	return arr;
+};
+
+const bici = fabbricaDiBici(getRandomInt(3,9));
 
 console.log(`
 ==============================================
 JS SNACK 1
 
+Elenco bici
+
+NOME   PESO
 `);
 
-var pesoBici = [];
+const pesoBici = [];
 bici.forEach((el) => {
-	pesoBici.push(el.peso);
-	console.log(`la ${el.nome} pesa ${el.peso}`);
+	let { peso } = el;
+	pesoBici.push(peso);
 });
+// for (let {nome: n, peso: p} of bici) { // ciclo for in !!
+// 	pesoBici.push(p);
+// }
+mostraArrayDiOggettiInConsole(bici,'nome','peso');
 
-var minPeso = Math.min(...pesoBici);
-var pos = pesoBici.indexOf(minPeso); 
-var minBici = bici[pos].nome;
+const minPeso = Math.min(...pesoBici);
+const minBici = bici[pesoBici.indexOf(minPeso)].nome;
 
 console.log(`
-la bici più leggera e la ${minBici} che pesa ${minPeso}
-
+La bici più leggera è la ${minBici} che pesa ${minPeso}.
 `);
 
 
@@ -55,42 +64,47 @@ la bici più leggera e la ${minBici} che pesa ${minPeso}
 // i cui elementi contengono solo 
 // nomi e falli subiti e stampiamo tutto in console.
 
-var squadre = [ 
-	{nome:'squadra1', puntiFatti:0, falliSubiti:0},
-	{nome:'squadra2', puntiFatti:0, falliSubiti:0},
-	{nome:'squadra3', puntiFatti:0, falliSubiti:0},
-	{nome:'squadra4', puntiFatti:0, falliSubiti:0},
-	{nome:'squadra5', puntiFatti:0, falliSubiti:0}
-];
+var iscrizioneAlCampionato = function(_N) {
+	var arr = [];
+	for (let i=1; i<=_N; i++)
+		arr.push({
+			'nome'        : 'squadra'+i,
+			'puntiFatti'  : 0,
+			'falliSubiti' : 0
+		});
+	return arr;
+};
+
+var squadre = iscrizioneAlCampionato(getRandomInt(3,9));
 
 console.log(`
 ==============================================
 JS SNACK 2
 
-tabella squadre
+Tabella squadre
 
-NOME     PF FS
+NOME      PF  FS
 `);
 
-// step 1
+// assegnazione random puntiFatti, falliSubiti
 squadre.forEach((el) => {
 	[ el.puntiFatti, el.falliSubiti ] = [ getRandomInt(0,99), getRandomInt(0,99) ];
-	console.log(`${el.nome} ${el.puntiFatti} ${el.falliSubiti}`);
 });
+mostraArrayDiOggettiInConsole(squadre,'nome','puntiFatti','falliSubiti');
 
 console.log(`
-tabella ridotta
+Tabella ridotta
 
-NOME     FS
+NOME      FS
 `);
 
-// step 2
+// duplicazione array di oggetti senza puntiFatti
 var squadre2 = [];
 squadre.forEach((el) => {
 	var { nome, falliSubiti } = el;	
 	squadre2.push({nome,falliSubiti});
-	console.log(`${nome} ${falliSubiti}`);
 });
+mostraArrayDiOggettiInConsole(squadre2,'nome','falliSubiti');
 
 console.log(`
 ==============================================
@@ -104,6 +118,15 @@ console.log(`
 //###################################################### 
 // FUNCTIONS
 
+
+function mostraArrayDiOggettiInConsole(_objArr, ..._campi) {
+	var	arr = [..._campi];
+	_objArr.forEach((el) => {
+		var msg = '';
+		for (let i=0; i<arr.length; i++) msg += `${el[arr[i]]}  `;
+		console.log(msg);
+	});
+}
 
 function getRandomInt(_a, _b) {
 	return Math.floor(Math.random()*(_b-_a+1))+_a;
