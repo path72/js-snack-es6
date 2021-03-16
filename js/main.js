@@ -5,6 +5,7 @@ $(function() {
 // ********************* doc ready start ***
 
 
+
 // * ---------- * JS SNACK 1 * ---------- *
 // Creare un array di oggetti: 
 // Ogni oggetto descriverà una bici da corsa 
@@ -106,6 +107,60 @@ console.log(`
 
 
 
+// * ---------- * JS SNACK 3 * ---------- *
+// Scrivere una funzione che accetti tre argomenti, 
+// un array e due numeri (a più piccolo di b).
+// La funzione ritornerà un nuovo array con i valori 
+// che hanno la posizione compresa tra i due numeri.
+// Usiamo i nuovi metodi degli array foreach o filter
+
+// random integer in [min,max]
+const rndInt = (min,max) => Math.floor(Math.random()*(max-min+1))+min;
+
+// random array generator
+const getArr = (minLen,maxLen,rangeEls) => {
+	let a = [], l = rndInt(minLen,maxLen);
+	while (a.length < l) a.push(rndInt(1,rangeEls));
+	return a;
+};
+
+// original array, random index sector, filtered array
+const arr  = getArr(5,10,999);
+const b    = rndInt(0,arr.length-1);
+const a    = rndInt(0,b);
+const arr2 = getArraySector(arr,a,b);
+
+// display html elements
+const hook1 = document.getElementById('hook1');
+const hook2 = document.getElementById('hook2');
+const hook3 = document.getElementById('hook3');
+
+// index sector info
+hook2.innerHTML += `<span class="hl1">settore di indici:</span> <span class="hl2">[${a},${b}]</span>`;
+
+// original array table
+hook1.innerHTML += `<tr><td colspan="2" class="hl3">Array originale</td></tr>`;
+arr.forEach((el,ind) => {
+	let tdClass = (ind >= a && ind <= b) ? ' class="hl2"': '';
+	hook1.innerHTML += `<tr><td class="hl1">indice #${ind}</td><td ${tdClass}>${el}</td></tr>`;
+});
+
+// filtered array table
+hook3.innerHTML += `<tr><td colspan="2" class="hl3">Array filtrato</td></tr>`;
+arr2.forEach((el,ind) => {
+	hook3.innerHTML += `<tr><td class="hl1">indice #${ind}</td><td class="hl2">${el}</td></tr>`;
+});
+
+
+
+
+
+
+
+// * ------- * JS SNACK LABELS * -------- *
+showJsSnackLabels();
+
+
 // *********************** doc ready end ***
 });
 
@@ -113,6 +168,8 @@ console.log(`
 // FUNCTIONS
 
 
+
+// * ---------- * JS SNACK 1,2 FUNCTIONS * ---------- *
 function mostraArrayDiOggettiInConsole(_objArr, ..._campi) {
 	_objArr.forEach((el) => {
 		let msg = '';
@@ -121,7 +178,34 @@ function mostraArrayDiOggettiInConsole(_objArr, ..._campi) {
 	});
 }
 
+
+
+// * ---------- * JS SNACK 3 FUNCTIONS * ---------- *
+function getArraySector(arr,minInd,maxInd) {
+	// consistency check
+	if (minInd > maxInd)     minInd = maxInd;
+	if (maxInd > arr.length) maxInd = arr.length;
+	// filtering
+	let arr2 = arr.filter((el,ind) => {
+		if (ind >= minInd && ind <= maxInd) return el;
+	});
+	return arr2;
+}
+
+
+
+// * ---------- * UNIVERSAL FUNCTIONS * ---------- *
+
 function getRandomInt(_a, _b) {
 	return Math.floor(Math.random()*(_b-_a+1))+_a;
 }
 
+
+
+// * ------- * JS SNACK LABELS * -------- *
+function showJsSnackLabels() {
+	$('.card').append('<div class="label"></div>');
+	$('.label').each(function(n) {
+		$(this).html('<span>Js Snack '+(n+1)+'</span>');
+	});	
+}
