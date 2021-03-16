@@ -32,22 +32,16 @@ Elenco bici
 
 NOME   PESO
 `);
-
-const pesoBici = [];
-bici.forEach((el) => {
-	let { peso } = el;
-	pesoBici.push(peso);
-});
-// for (let {nome: n, peso: p} of bici) { // ciclo for in !!
-// 	pesoBici.push(p);
-// }
 mostraArrayDiOggettiInConsole(bici,'nome','peso');
 
-const minPeso = Math.min(...pesoBici);
-const minBici = bici[pesoBici.indexOf(minPeso)].nome;
+let biciLeggera = bici[0];
+bici.forEach((unaBici, index) => {
+	if (unaBici.peso <= biciLeggera.peso) biciLeggera = bici[index];
+});
 
+const {nome,peso} = biciLeggera;
 console.log(`
-La bici più leggera è la ${minBici} che pesa ${minPeso}.
+La bici più leggera è la ${nome} che pesa ${peso}.
 `);
 
 
@@ -120,10 +114,9 @@ console.log(`
 
 
 function mostraArrayDiOggettiInConsole(_objArr, ..._campi) {
-	let	arr = [..._campi];
 	_objArr.forEach((el) => {
 		let msg = '';
-		for (let i=0; i<arr.length; i++) msg += `${el[arr[i]]}  `;
+		for (let i=0; i<_campi.length; i++) msg += `${el[_campi[i]]}  `;
 		console.log(msg);
 	});
 }
